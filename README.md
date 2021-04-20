@@ -1,5 +1,9 @@
 # PeekingDuck
 
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/aimakerspace/PeekingDuck?style=for-the-badge" style="margin: 0px 8px  20px 0px">
+<img alt="GitHub all releases" src="https://img.shields.io/github/downloads/aimakerspace/PeekingDuck/total?style=for-the-badge" style="margin: 0px 8px  20px 0px">
+<img alt="GitHub issues" src="https://img.shields.io/github/issues/aimakerspace/PeekingDuck?style=for-the-badge" style="margin: 0px 8px  20px 0px">
+
 PeekingDuck is a python framework dealing with model inference.
 
 This toolkit provides state of the art computer vision models to make real time inference easy: *social distancing, people counting, license plate recognition etc.*. Customisability of the node modules ensures flexibility for unique usecases. Attached API server enables real time access to data analysis of the model pipe.
