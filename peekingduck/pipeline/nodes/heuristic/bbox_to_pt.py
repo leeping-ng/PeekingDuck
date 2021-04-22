@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 import numpy as np
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from peekingduck.pipeline.nodes.node import AbstractNode
 
@@ -24,7 +24,7 @@ class Node(AbstractNode):
     def __init__(self, config: Dict) -> None:
         super().__init__(config, name='heuristic.bbox_to_pt')
 
-    def run(self, inputs: Dict) -> List:
+    def run(self, inputs: Dict) -> List[Tuple[float]]:
         """Converts bounding boxes to  a single point of reference
         for use in zone analytics
 
@@ -41,7 +41,8 @@ class Node(AbstractNode):
         # get xy midpoint of each bbox (x1, y1, x2, y2)
         # This is calculated as x is (x1-x2)/2 and y is y2
         bboxes = inputs[self.inputs[0]]
-        self.img_size = inputs[self.inputs[1]]
+        frame = inputs[self.inputs[1]]
+        self.img_size = (frame.shape[1], frame.shape[0])
         return [self._xy_on_img((bbox[0]+bbox[2]/2), bbox[3])
                 for bbox in bboxes]
 

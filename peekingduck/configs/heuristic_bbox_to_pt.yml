@@ -1,2 +1,2 @@
-input: ["bboxes", "resolution"]
+input: ["bboxes", "img"]
 output: ["btm_midpoint"]

@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 import numpy as np
-from typing import Dict, List
+from typing import Dict
 
 from peekingduck.pipeline.nodes.node import AbstractNode
 
@@ -24,7 +24,7 @@ class Node(AbstractNode):
     def __init__(self, config: Dict) -> None:
         super().__init__(config, name='heuristic.bbox_to_pt')
 
-    def run(self, inputs: Dict) -> List:
+    def run(self, inputs: Dict) -> int:
         """Counts bboxes of object chosen in the frame. Note that this method
         requires that the bbox returns all the same objects (for example, all people)
 
