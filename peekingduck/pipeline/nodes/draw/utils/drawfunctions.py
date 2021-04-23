@@ -112,5 +112,15 @@ def draw_count(frame, count):
             in current frame
     """
     text = 'COUNT: {0}'.format(count)
-    cv2.putText(frame, text, (150, 25), cv2.FONT_HERSHEY_SIMPLEX,
+    cv2.putText(frame, text, (50, 25), cv2.FONT_HERSHEY_SIMPLEX,
                 0.75, COUNTING_TEXT_COLOR, 2, cv2.LINE_AA)
+
+def draw_pts(frame, pts):
+    """draw pts of selected object onto frame
+
+    Args:
+        frame (List[List[float]]): image of current frame
+        pts (List[Tuple[float]]): bottom midpoints of bboxes
+    """
+    for pt in pts:
+        cv2.circle(frame, pt, 5, KEYPOINT_DOT_COLOR, -1)

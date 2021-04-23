@@ -36,4 +36,4 @@ class Node(AbstractNode):
             count (int): count of number of same object within the image
 
         """
-        return len(inputs[self.inputs[0]])
+        return {'count': len(inputs[self.inputs[0]])}

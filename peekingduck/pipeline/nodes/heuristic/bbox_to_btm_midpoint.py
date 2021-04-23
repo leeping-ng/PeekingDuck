@@ -22,7 +22,7 @@ from peekingduck.pipeline.nodes.node import AbstractNode
 
 class Node(AbstractNode):
     def __init__(self, config: Dict) -> None:
-        super().__init__(config, name='heuristic.bbox_to_pt')
+        super().__init__(config, name='heuristic.bbox_to_btm_midpoint')
 
     def run(self, inputs: Dict) -> List[Tuple[float]]:
         """Converts bounding boxes to  a single point of reference
@@ -43,8 +43,8 @@ class Node(AbstractNode):
         bboxes = inputs[self.inputs[0]]
         frame = inputs[self.inputs[1]]
         self.img_size = (frame.shape[1], frame.shape[0])
-        return [self._xy_on_img((bbox[0]+bbox[2]/2), bbox[3])
-                for bbox in bboxes]
+        return {'btm_midpoint': [self._xy_on_img(((bbox[0]+bbox[2])/2), bbox[3])
+                for bbox in bboxes]}
 
     def _xy_on_img(self, x, y):
-        return (x * self.img_size, y * self.img_size)
+        return (int(x * self.img_size[0]), int(y * self.img_size[1]))
