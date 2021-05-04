@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License."""
 
 import os
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 import numpy as np
 import cv2
 from peekingduck.pipeline.nodes.node import AbstractNode
@@ -27,18 +27,18 @@ from peekingduck.pipeline.nodes.node import AbstractNode
 class Node(AbstractNode):
     """Node that processes videos and images as primary source input"""
 
-    def __init__(self, config):
+    def __init__(self, config: Dict[str, Any]) -> None:
         super().__init__(config, node_path=__name__)
 
-        self._file_name = None
+        self._file_name: Optional[str] = None
         self._output_dir = config["outputdir"]
         self._prepare_directory(config["outputdir"])
         self._fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        self._image_type = None
-        self._file_path = None
-        self.writer = None
+        self._image_type: Optional[str] = None
+        self._file_path: Optional[str] = None
+        self.writer: Any = None
 
-    def __del__(self):
+    def __del__(self) -> None:
         if self.writer:
             self.writer.release()
 
@@ -72,13 +72,13 @@ class Node(AbstractNode):
 
         return {}
 
-    def _write(self, img: np.array):
+    def _write(self, img: np.array) -> None:
         if self._image_type == "image":
             cv2.imwrite(self._file_path, img)
         else:
             self.writer.write(img)
 
-    def _prepare_writer(self, filename: str, img: np.array, fps: int):
+    def _prepare_writer(self, filename: str, img: np.array, fps: int) -> None:
 
         self._file_name = filename
         self._file_path = os.path.join(self._output_dir, filename)
@@ -92,5 +92,5 @@ class Node(AbstractNode):
                 self._file_path, self._fourcc, fps, resolution)
 
     @staticmethod
-    def _prepare_directory(outputdir):
+    def _prepare_directory(outputdir: str) -> None:
         os.makedirs(outputdir, exist_ok=True)
