@@ -1,0 +1,6 @@
+input: ["source"]
+output: ["source"]
+
+bucket_name: "peekingduck"
+blob_dir: "samples/"
+dest_dir: "PeekingDuck/data/gcp/"
