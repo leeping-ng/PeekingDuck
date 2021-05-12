@@ -132,7 +132,7 @@ class DeclarativeLoader:  # pylint: disable=too-few-public-methods
             if name in config_name:
                 config[name] = value
             else:
-                self.logger.info(name + " is not a configurable parameter")
+                self.logger.info("'" + name + "' is not a valid configurable parameter")
 
         return config
 
