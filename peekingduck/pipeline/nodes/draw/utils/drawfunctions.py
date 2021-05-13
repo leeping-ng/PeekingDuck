@@ -17,7 +17,6 @@ from typing import List, Tuple, Any
 import numpy as np
 import cv2
 from cv2 import FONT_HERSHEY_SIMPLEX, LINE_AA
-from numpy.core.numeric import count_nonzero
 from peekingduck.pipeline.nodes.heuristic.zoningv1.divider import Divider
 from peekingduck.pipeline.nodes.heuristic.zoningv1.area import Area
 from peekingduck.pipeline.nodes.heuristic.zoningv1.zone import Zone
