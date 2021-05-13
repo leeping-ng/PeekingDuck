@@ -22,7 +22,7 @@ class Area(Zone):
     """This is a zone subclass that uses polygon area to create a zone.
     """
 
-    def __init__(self, coord_list: List[Any]) -> None:
+    def __init__(self, coord_list: List[List[float, float]]) -> None:
         super().__init__("polygon")
         # Each zone is a polygon created by a list of x, y coordinates
         self.polygon_points = [tuple(x) for x in coord_list]

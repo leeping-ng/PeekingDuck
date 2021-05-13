@@ -41,7 +41,7 @@ class DividerZone(Zone):
         """
         return self._is_inside(x_coord, y_coord)
 
-    def get_dividers(self) -> Type[Divider]:
+    def get_dividers(self) -> List[Divider]:
         """Getter of Dividers used in defining the zone.
 
         Returns:
@@ -91,7 +91,7 @@ class Divider:
         return self._is_inside(x_coord, y_coord)
 
     def get_end_points_to_draw_on_frame(self, max_x: float, max_y: float) \
-        -> List[Tuple[float], Tuple[float]]:
+        -> Tuple[Tuple[int, int], Tuple[int, int]]:
         """Uses the maximum x and y given to return two points
         which would draw the divider onto the frame
 
@@ -104,9 +104,9 @@ class Divider:
         """
 
         if self.point_1[0] == self.point_2[0]:
-            return (self.point_1[0], 0), (self.point_1[0], max_y)
+            return (int(self.point_1[0]), 0), (int(self.point_1[0]), int(max_y))
         if self.point_1[1] == self.point_2[1]:
-            return (0, self.point_1[1]), (max_x, self.point_1[1])
+            return (0, int(self.point_1[1])), (int(max_x), int(self.point_1[1]))
 
         draw_points = []
         # check the two points which the line intercepts the borders of the frame and use
