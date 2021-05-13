@@ -25,9 +25,6 @@ class Node(AbstractNode):
     """Node that checks if any objects are near to each other"""
     def __init__(self, config: Dict[str, Any]) -> None:
         super().__init__(config, node_path=__name__)
-        self.discount_rate = config["discount_rate"]
-        self.logger.info('discount rate: {:.2f}'.format(self.discount_rate))
-
         zones_info = config["zones"]
         self.zones = [self._create_zone(zone) for zone in zones_info]
 
@@ -50,7 +47,7 @@ class Node(AbstractNode):
                 if zone.point_within_zone(*point):
                     zone_counts[i] += 1
 
-        return {"zone_counts": zone_counts}
+        return {"zone_count": zone_counts}
 
     @staticmethod
     def _create_zone(zone: List[Any]) -> Zone:
