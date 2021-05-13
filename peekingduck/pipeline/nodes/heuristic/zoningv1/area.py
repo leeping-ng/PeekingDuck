@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from typing import List, Tuple, Any
+from typing import List, Tuple
 from shapely.geometry.polygon import Polygon, Point
 from peekingduck.pipeline.nodes.heuristic.zoningv1.zone import Zone
 
@@ -41,7 +41,7 @@ class Area(Zone):
         """
         return self._is_inside(x_coord, y_coord)
 
-    def get_all_points_of_area(self) -> List[Tuple[Any]]:
+    def get_all_points_of_area(self) -> List[Tuple[float, ...]]:
         """Function used to Get all (x, y) tuple points that form the area of the zone.
 
         Args:
