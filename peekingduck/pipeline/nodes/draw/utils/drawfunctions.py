@@ -17,7 +17,7 @@ from typing import List, Tuple, Any
 import numpy as np
 import cv2
 from cv2 import FONT_HERSHEY_SIMPLEX, LINE_AA
-from peekingduck.pipeline.nodes.heuristic.zoningv1.divider import Divider
+from peekingduck.pipeline.nodes.heuristic.zoningv1.divider import DividerZone, Divider
 from peekingduck.pipeline.nodes.heuristic.zoningv1.area import Area
 from peekingduck.pipeline.nodes.heuristic.zoningv1.zone import Zone
 
@@ -239,7 +239,7 @@ def _draw_zone_area(frame:np.array, area: Area) -> None:
             cv2.line(frame, points[i], points[i+1], (255, 0, 0), 3)
 
 
-def draw_zones(frame:np.array, zones: List[Zone]) -> None:
+def draw_zones(frame:np.array, zones: List[Any]) -> None:
     """draw the boundaries of the zones used in zoning analytics
 
     Args:
