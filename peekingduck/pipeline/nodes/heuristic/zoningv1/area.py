@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from typing import List, Tuple
+from typing import List, Tuple, Any
 from shapely.geometry.polygon import Polygon, Point
 from peekingduck.pipeline.nodes.heuristic.zoningv1.zone import Zone
 
@@ -22,7 +22,7 @@ class Area(Zone):
     """This is a zone subclass that uses polygon area to create a zone.
     """
 
-    def __init__(self, coord_list: List[List[float, float]]) -> None:
+    def __init__(self, coord_list: List[List[float]]) -> None:
         super().__init__("polygon")
         # Each zone is a polygon created by a list of x, y coordinates
         self.polygon_points = [tuple(x) for x in coord_list]
@@ -41,7 +41,7 @@ class Area(Zone):
         """
         return self._is_inside(x_coord, y_coord)
 
-    def get_all_points_of_area(self) -> List[Tuple[float]]:
+    def get_all_points_of_area(self) -> List[Tuple[Any]]:
         """Function used to Get all (x, y) tuple points that form the area of the zone.
 
         Args:
