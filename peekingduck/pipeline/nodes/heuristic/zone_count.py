@@ -42,7 +42,7 @@ class Node(AbstractNode):
         zone_counts = [0] * num_of_zones
 
         # for each x, y point, check if it is in any zone and add count
-        for point in inputs["btm_midpoints"]:
+        for point in inputs["btm_midpoint"]:
             for i, zone in enumerate(self.zones):
                 if zone.point_within_zone(*point):
                     zone_counts[i] += 1

@@ -1,5 +1,10 @@
 nodes:
 - input.live
 - model.yolo
+- heuristic.bbox_to_btm_midpoint
+- heuristic.zone_count
 - draw.bbox
+- draw.btm_midpoint
+- draw.zones
+- draw.zone_count
 - output.screen

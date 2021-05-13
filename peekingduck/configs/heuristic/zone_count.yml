@@ -1,4 +1,4 @@
-input: ["btm_midpoints"]
+input: ["btm_midpoint"]
 output: ["zones", "zone_count"]
 
 zones: [
