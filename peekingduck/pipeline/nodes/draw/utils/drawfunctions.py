@@ -17,10 +17,8 @@ from typing import List, Tuple, Any
 import numpy as np
 import cv2
 from cv2 import FONT_HERSHEY_SIMPLEX, LINE_AA
-from peekingduck.pipeline.nodes.heuristic.zoningv1.divider import DividerZone, Divider
+from peekingduck.pipeline.nodes.heuristic.zoningv1.divider import Divider
 from peekingduck.pipeline.nodes.heuristic.zoningv1.area import Area
-from peekingduck.pipeline.nodes.heuristic.zoningv1.zone import Zone
-
 
 POSE_BBOX_COLOR = (255, 255, 0)
 BLACK_COLOR = (0, 0, 0)
