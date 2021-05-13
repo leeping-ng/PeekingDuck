@@ -1,5 +1,5 @@
 input: ["btm_midpoints"]
-output: ["zone_count"]
+output: ["zones", "zone_count"]
 
 zones: [
   ["dividers", [[350, 0, 350, 100, "smaller"]]],

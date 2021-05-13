@@ -47,7 +47,8 @@ class Node(AbstractNode):
                 if zone.point_within_zone(*point):
                     zone_counts[i] += 1
 
-        return {"zone_count": zone_counts}
+        return {"zones": self.zones,
+                "zone_count": zone_counts}
 
     @staticmethod
     def _create_zone(zone: List[Any]) -> Zone:
