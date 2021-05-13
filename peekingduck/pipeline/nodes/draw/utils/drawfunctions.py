@@ -17,6 +17,7 @@ from typing import List, Tuple, Any
 import numpy as np
 import cv2
 from cv2 import FONT_HERSHEY_SIMPLEX, LINE_AA
+from numpy.core.numeric import count_nonzero
 from peekingduck.pipeline.nodes.heuristic.zoningv1.divider import Divider
 from peekingduck.pipeline.nodes.heuristic.zoningv1.area import Area
 from peekingduck.pipeline.nodes.heuristic.zoningv1.zone import Zone
@@ -239,7 +240,7 @@ def _draw_zone_area(frame:np.array, area: Area) -> None:
             cv2.line(frame, points[i], points[i+1], (255, 0, 0), 3)
 
 
-def draw_zones(frame:np.array, zones: Zone) -> None:
+def draw_zones(frame:np.array, zones: List[Zone]) -> None:
     """draw the boundaries of the zones used in zoning analytics
 
     Args:
@@ -254,7 +255,7 @@ def draw_zones(frame:np.array, zones: Zone) -> None:
         if zone.zoning_type == 'polygon':
             _draw_zone_area(frame, zone)
 
-def draw_zone_count(frame:np.array, zone_count: List[int]):
+def draw_zone_count(frame:np.array, zone_count: List[int]) -> None:
     """draw pts of selected object onto frame
 
     Args:
@@ -263,7 +264,7 @@ def draw_zone_count(frame:np.array, zone_count: List[int]):
         in the zone analytics
     """
     text = 'ZONE COUNTS:\n '
-    for i, zone in enumerate(zone_count):
-        text = text + 'ZONE{0} - {1}\n'.format(i+1, zone[i])
+    for i, count in enumerate(zone_count):
+        text = text + 'ZONE{0} - {1}\n'.format(i+1, count)
     cv2.putText(frame, text, (150, 25), ACTIVITY_COLOR,
                 0.75, COUNTING_TEXT_COLOR, 2, cv2.LINE_AA)
