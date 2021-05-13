@@ -13,7 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from typing import List, Any, Tuple
+from __future__ import annotations
+from typing import List, Any, Tuple, Type
 from peekingduck.pipeline.nodes.heuristic.zoningv1.zone import Zone
 
 
@@ -40,7 +41,7 @@ class DividerZone(Zone):
         """
         return self._is_inside(x_coord, y_coord)
 
-    def get_dividers(self) -> Divider:
+    def get_dividers(self) -> Type[Divider]:
         """Getter of Dividers used in defining the zone.
 
         Returns:

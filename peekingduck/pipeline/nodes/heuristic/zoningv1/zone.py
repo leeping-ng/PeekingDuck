@@ -13,8 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
-import logging
 from abc import ABCMeta, abstractmethod
 from typing import Any
 
@@ -25,7 +23,6 @@ class Zone(metaclass=ABCMeta):
 
     def __init__(self, zoning_type: str) -> None:
         self.zoning_type = zoning_type
-        self.logger = logging.getLogger(__name__)
 
     @classmethod
     def __subclasshook__(cls: Any, subclass: Any) -> bool:
