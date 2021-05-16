@@ -15,8 +15,6 @@ limitations under the License.
 """
 from __future__ import annotations
 from typing import Dict, List, Any
-from peekingduck.pipeline.nodes.heuristic.zoningv1.divider import DividerZone
-from peekingduck.pipeline.nodes.heuristic.zoningv1.area import Area
 from peekingduck.pipeline.nodes.heuristic.zoningv1.zone import Zone
 from peekingduck.pipeline.nodes.node import AbstractNode
 
@@ -26,7 +24,11 @@ class Node(AbstractNode):
     def __init__(self, config: Dict[str, Any]) -> None:
         super().__init__(config, node_path=__name__)
         zones_info = config["zones"]
-        self.zones = [self._create_zone(zone) for zone in zones_info]
+        try:
+            self.zones = [self._create_zone(zone, config["resolution"]) \
+                for zone in zones_info]
+        except TypeError as error:
+            self.logger.warning(error)
 
     def run(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
         """Compares the 3D locations of all objects to see which objects are close to each other.
@@ -50,12 +52,21 @@ class Node(AbstractNode):
         return {"zones": self.zones,
                 "zone_count": zone_counts}
 
+    def _create_zone(self, zone: List[Any], resolution: List[int]) -> Zone:
+        # creates the appropriate Zone given either the absolute pixel values or
+        # % of resolution as a fraction between [0, 1]
+        if all(all(0 <= i <= 1 for i in coords) for coords in zone):
+            # coordinates are in fraction. Use resolution to get correct coords
+            pixel_coords = [self._get_pixel_coords(coords, resolution) for coords in zone]
+            return Zone(pixel_coords)
+        if all(all(i >= 0 for i in coords) for coords in zone):
+            # when 1st-if fails and this statement passes, list is in pixel value.
+            return Zone(zone)
+        # if neither, something is wrong
+        raise TypeError("Zone Type Error: %s is neither pixel-wise points or \
+            fraction of frame between 0 and 1." % zone)
+
     @staticmethod
-    def _create_zone(zone: List[Any]) -> Zone:
-        # creates the appropriate Zone class for use zoning analytics
-        if zone[0] == "dividers":
-            return DividerZone(zone[1])
-        if zone[0] == "area":
-            return Area(zone[1])
-        # if neither, something is wrong. Raise error
-        raise TypeError("Zone Type Error: %s is not a type of zone." % zone[0])
+    def _get_pixel_coords(coords:List[float], resolution:List[int]) -> List[float]:
+        # returns the pixel position of the zone points
+        return [coords[0] * resolution[0], coords[1] * resolution[1]]
