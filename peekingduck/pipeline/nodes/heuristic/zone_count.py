@@ -35,10 +35,11 @@ class Node(AbstractNode):
         If an object is close to another, tag it.
 
         Args:
-            inputs (dict): Dict with keys "obj_3D_locs".
+            inputs (dict): Dict with keys "btm_midpoints".
 
         Returns:
-            outputs (dict): Dict with keys "obj_tags".
+            outputs (dict): Dict with keys "zones" for tuple of (x, y) points that form zone,
+            and "zone_count" for the zone counting of all objects detected in the zone.
         """
         num_of_zones = len(self.zones)
         zone_counts = [0] * num_of_zones
@@ -49,7 +50,7 @@ class Node(AbstractNode):
                 if zone.point_within_zone(*point):
                     zone_counts[i] += 1
 
-        return {"zones": self.zones,
+        return {"zones": [zone.get_all_points_of_area() for zone in self.zones],
                 "zone_count": zone_counts}
 
     def _create_zone(self, zone: List[Any], resolution: List[int]) -> Zone:

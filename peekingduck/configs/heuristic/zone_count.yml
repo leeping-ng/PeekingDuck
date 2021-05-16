@@ -1,4 +1,4 @@
-input: ["btm_midpoint", "img"]
+input: ["btm_midpoint"]
 output: ["zones", "zone_count"]
 
 resolution: [1280, 720]
