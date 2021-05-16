@@ -17,7 +17,6 @@ from typing import List, Tuple, Any
 import numpy as np
 import cv2
 from cv2 import FONT_HERSHEY_SIMPLEX, LINE_AA
-from peekingduck.pipeline.nodes.heuristic.zoningv1.zone import Zone
 
 POSE_BBOX_COLOR = (255, 255, 0)
 BLACK_COLOR = (0, 0, 0)
@@ -215,8 +214,7 @@ def draw_fps(frame: np.array, current_fps: float) -> None:
                 PINK_COLOR, FONT_THICKNESS, LINE_AA)
 
 
-def _draw_zone_area(frame:np.array, area: Zone) -> None:
-    points = area.get_all_points_of_area()
+def _draw_zone_area(frame:np.array, points: List[Tuple[float]]) -> None:
     total_points = len(points)
     for i in range(total_points):
         if i == total_points-1:
@@ -235,8 +233,8 @@ def draw_zones(frame:np.array, zones: List[Any]) -> None:
         zones (Zone): zones used in the zoning analytics. possible
         classes are Area and Divider.
     """
-    for zone in zones:
-        _draw_zone_area(frame, zone)
+    for zone_pts in zones:
+        _draw_zone_area(frame, zone_pts)
 
 
 def draw_zone_count(frame:np.array, zone_count: List[int]) -> None:
