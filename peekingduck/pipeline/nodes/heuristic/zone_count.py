@@ -70,4 +70,4 @@ class Node(AbstractNode):
     @staticmethod
     def _get_pixel_coords(coords:List[float], resolution:List[int]) -> List[float]:
         # returns the pixel position of the zone points
-        return [coords[0] * resolution[0], coords[1] * resolution[1]]
+        return [int(coords[0] * resolution[0]), int(coords[1] * resolution[1])]

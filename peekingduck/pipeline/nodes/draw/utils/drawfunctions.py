@@ -214,7 +214,7 @@ def draw_fps(frame: np.array, current_fps: float) -> None:
                 PINK_COLOR, FONT_THICKNESS, LINE_AA)
 
 
-def _draw_zone_area(frame:np.array, points: List[Tuple[float]]) -> None:
+def _draw_zone_area(frame:np.array, points: List[Tuple[int]]) -> None:
     total_points = len(points)
     for i in range(total_points):
         if i == total_points-1:
