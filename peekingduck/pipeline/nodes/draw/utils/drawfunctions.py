@@ -216,15 +216,6 @@ def draw_fps(frame: np.array, current_fps: float) -> None:
                 PINK_COLOR, FONT_THICKNESS, LINE_AA)
 
 
-def _draw_divider(frame: np.array, divider: Divider) -> None:
-    image_size = _get_image_size(frame)
-    max_x = image_size[0]
-    max_y = image_size[1]
-
-    draw_point_1, draw_point_2 = divider.get_end_points_to_draw_on_frame(max_x, max_y)
-    cv2.line(frame, draw_point_1, draw_point_2, (255, 0, 0), 3)
-
-
 def _draw_zone_area(frame:np.array, area: Area) -> None:
     points = area.get_all_points_of_area()
     total_points = len(points)
@@ -246,11 +237,8 @@ def draw_zones(frame:np.array, zones: List[Any]) -> None:
         classes are Area and Divider.
     """
     for zone in zones:
-        if zone.zoning_type == 'divider':
-            for divider in zone.dividers:
-                _draw_divider(frame, divider)
-        if zone.zoning_type == 'polygon':
-            _draw_zone_area(frame, zone)
+        _draw_zone_area(frame, zone)
+
 
 def draw_zone_count(frame:np.array, zone_count: List[int]) -> None:
     """draw pts of selected object onto frame
