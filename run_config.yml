@@ -3,6 +3,7 @@ nodes:
 - model.yolo
 - heuristic.bbox_to_btm_midpoint
 - heuristic.zone_count
+- draw.fps
 - draw.bbox
 - draw.btm_midpoint
 - draw.zones
