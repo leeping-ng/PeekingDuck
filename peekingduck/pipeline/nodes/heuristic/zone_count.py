@@ -71,8 +71,8 @@ class Node(AbstractNode):
             assert False, ("Zone %s needs to be all pixel-wise points or "
             "all fractions of the frame between 0 and 1. "
             "please check zone_count configs." % zone)
-        else:
-            return created_zone
+
+        return created_zone
 
     @staticmethod
     def _get_pixel_coords(coords:List[float], resolution:List[int]) -> List[float]:
