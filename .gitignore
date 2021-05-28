@@ -148,4 +148,3 @@ dist/
 peekingduck.egg-info/
 # Other likely files that should not be committed
 .DS_Store
-/run_config.yml
