@@ -15,20 +15,17 @@ PeekingDuck Documentation
 
 .. toctree::
    :titlesonly:
+   :glob:
    :caption: Models
 
-   models/efficientdet
-   models/posenet
-   models/yolo
+   models/*
 
 .. toctree::
    :titlesonly:
+   :glob:
    :caption: Use Cases
 
-   use_cases/group_size_checking
-   use_cases/object_counting
-   use_cases/social_distancing
-   use_cases/zone_counting
+   use_cases/*
 
 .. toctree::
    :maxdepth: 2
