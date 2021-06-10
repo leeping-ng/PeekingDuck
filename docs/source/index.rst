@@ -40,10 +40,3 @@ Welcome to PeekingDuck's documentation!
    node_glossary.md
    node_data_mapping.md
    io_draw_nodes.md
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
