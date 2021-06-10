@@ -3,7 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-PeekingDuck Documentation
+.. image:: https://raw.githubusercontent.com/aimakerspace/PeekingDuck/dev/images/readme/peekingduck.png
+   :alt: PeekingDuck logo
+
+Welcome to PeekingDuck's documentation!
 =======================================
 
 .. toctree::
