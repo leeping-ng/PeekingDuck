@@ -30,8 +30,7 @@ release = "developer"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['myst_parser'
-              ]
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -55,5 +54,5 @@ html_theme = 'nature'
 html_static_path = ['_static']
 
 html_sidebars = {
-    '**': ['globaltoc.html', 'sourcelink.html', 'searchbox.html']
+    '**': ['searchbox.html', 'globaltoc.html', 'sourcelink.html', ]
 }
