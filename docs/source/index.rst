@@ -16,30 +16,30 @@ Welcome to PeekingDuck's documentation!
    :titlesonly:
    :caption: Introduction
 
-   introduction/README
-   introduction/guide_custom_nodes
+   introduction/README.md
+   introduction/guide_custom_nodes.md
 
 .. toctree::
    :titlesonly:
    :glob:
    :caption: Models
 
-   models/*
+   models/*.md
 
 .. toctree::
    :titlesonly:
    :glob:
    :caption: Use Cases
 
-   use_cases/*
+   use_cases/*.md
 
 .. toctree::
    :maxdepth: 2
    :caption: Nodes
 
-   node_glossary
-   node_data_mapping
-   io_draw_nodes
+   node_glossary.md
+   node_data_mapping.md
+   io_draw_nodes.md
 
 Indices and tables
 ==================
