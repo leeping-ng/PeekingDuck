@@ -1,5 +1,9 @@
 nodes:
-- input.live
-- model.yolo
-- draw.bbox
-- output.screen
+- input.recorded:
+    input_dir: "/Users/ngleeping/Desktop/input"
+- model.yolo:
+    model_type: v4tiny
+- heuristic.fps:
+    fps_log_display: True
+# - output.csv_writer:
+#     stats_to_track: ["fps"]
