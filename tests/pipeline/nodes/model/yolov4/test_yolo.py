@@ -67,6 +67,13 @@ class TestYolo:
         logger.warning("TEST METHOD THAT DOES NOTHING CAN LOG")
         assert 1 == 1
 
+    def test_return_at_least_one_person_and_one_bbox(self, test_human_images, yolo):
+        test_img = cv2.imread(test_human_images)
+        output = yolo.run({'img': test_img})
+        assert 1 == 1
+        assert 'bboxes' in output
+        assert output['bboxes'].size != 0
+
     def test_no_human_image(self, test_no_human_images, yolo):
         blank_image = cv2.imread(test_no_human_images)
         output = yolo.run({'img': blank_image})
@@ -77,13 +84,6 @@ class TestYolo:
         npt.assert_equal(output['bboxes'], expected_output['bboxes'])
         npt.assert_equal(output['bbox_labels'], expected_output['bbox_labels'])
         npt.assert_equal(output['bbox_scores'], expected_output['bbox_scores'])
-
-    def test_return_at_least_one_person_and_one_bbox(self, test_human_images, yolo):
-        test_img = cv2.imread(test_human_images)
-        output = yolo.run({'img': test_img})
-        assert 1 == 1
-        # assert 'bboxes' in output
-        # assert output['bboxes'].size != 0
 
     def test_no_weights(self, yolo_config):
         with mock.patch('peekingduck.weights_utils.checker.has_weights',
