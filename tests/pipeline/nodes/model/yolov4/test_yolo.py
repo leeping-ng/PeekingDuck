@@ -64,11 +64,11 @@ def replace_download_weights(root, blob_file):
 class TestYolo:
 
     def test_something(self):
-        logger.info("TEST METHOD THAT DOES NOTHING CAN LOG")
+        logger.warning("TEST METHOD THAT DOES NOTHING CAN LOG")
         assert 1 == 1
 
     # def test_no_human_image(self, test_no_human_images, yolo):
-    #     logger.info("SEEE IF LOGGING WORKS!!!!")
+    #     logger.warning("SEEE IF LOGGING WORKS!!!!")
     #     blank_image = cv2.imread(test_no_human_images)
     #     output = yolo.run({'img': blank_image})
     #     expected_output = {'bboxes': np.empty((0, 4), dtype=np.float32),
