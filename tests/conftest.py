@@ -21,7 +21,7 @@ import pytest
 
 import cv2
 
-TEST_HUMAN_IMAGES = ['t1.jpg', 't2.jpg', 't4.jpg']
+TEST_HUMAN_IMAGES = ['t1.jpg']
 TEST_NO_HUMAN_IMAGES = ['black.jpg', 't3.jpg']
 PKD_DIR = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), '..', 'peekingduck'
@@ -82,7 +82,8 @@ def tmp_dir():
     os.chdir(newpath)
     yield
     os.chdir(cwd)
-    shutil.rmtree(newpath, ignore_errors=True) # ignore_errors for windows developement
+    # ignore_errors for windows developement
+    shutil.rmtree(newpath, ignore_errors=True)
 
 
 @pytest.fixture(params=TEST_HUMAN_IMAGES)
