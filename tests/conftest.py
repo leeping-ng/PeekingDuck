@@ -22,7 +22,7 @@ import pytest
 import cv2
 
 TEST_HUMAN_IMAGES = ['t1.jpg']
-TEST_NO_HUMAN_IMAGES = ['black.jpg', 't3.jpg']
+TEST_NO_HUMAN_IMAGES = ['black.jpg']
 PKD_DIR = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), '..', 'peekingduck'
 )
