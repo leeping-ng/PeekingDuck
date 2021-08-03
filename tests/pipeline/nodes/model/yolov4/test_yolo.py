@@ -69,6 +69,7 @@ class TestYolo:
 
     def test_return_at_least_one_person_and_one_bbox(self, test_human_images, yolo):
         test_img = cv2.imread(test_human_images)
+        logger.warning(test_img[0][0])
         output = yolo.run({'img': test_img})
         assert 1 == 1
         assert 'bboxes' in output
@@ -76,6 +77,7 @@ class TestYolo:
 
     def test_no_human_image(self, test_no_human_images, yolo):
         blank_image = cv2.imread(test_no_human_images)
+        logger.warning(blank_image[0][0])
         output = yolo.run({'img': blank_image})
         expected_output = {'bboxes': np.empty((0, 4), dtype=np.float32),
                            'bbox_labels': np.empty((0)),
