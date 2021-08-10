@@ -1,9 +1,12 @@
 nodes:
 - input.recorded:
-    input_dir: "/Users/ngleeping/Desktop/input"
+    input_dir: "PeekingDuck/data/benchmark/single_person.mp4"
 - model.yolo:
     model_type: v4tiny
-- heuristic.fps:
-    fps_log_display: True
-# - output.csv_writer:
-#     stats_to_track: ["fps"]
+# - model.efficientdet:
+#     model_type: 0 # 0-4
+# - model.posenet:
+#     model_type: resnet # 50, 75, 101 or resnet
+# - model.hrnet
+- dabble.fps
+
