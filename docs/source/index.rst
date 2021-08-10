@@ -16,7 +16,8 @@ Welcome to PeekingDuck's documentation!
    :titlesonly:
    :caption: Introduction
 
-   introduction/introduction.md
+   introduction/01_introduction.md
+   introduction/02_bibliography.md
 
 .. toctree::
    :titlesonly:
@@ -44,7 +45,7 @@ Nodes are the core of PeekingDuck. See below for the readily-available nodes and
 
    peekingduck.pipeline.nodes.input
    peekingduck.pipeline.nodes.model
-   peekingduck.pipeline.nodes.heuristic
+   peekingduck.pipeline.nodes.dabble
    peekingduck.pipeline.nodes.draw
    peekingduck.pipeline.nodes.output
 
