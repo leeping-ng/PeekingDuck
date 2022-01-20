@@ -16,12 +16,13 @@
 Yolo model with model types: v3 and v3tiny
 """
 
-import os
 import logging
 from typing import List, Dict, Any, Tuple
+
 import numpy as np
-from peekingduck.weights_utils import checker, downloader
-from .yolo_files.detector import Detector
+
+from peekingduck.pipeline.nodes.model.yolov4.yolo_files.detector import Detector
+from peekingduck.weights_utils import checker, downloader, finder
 
 
 class YoloModel:
@@ -29,49 +30,58 @@ class YoloModel:
 
     def __init__(self, config: Dict[str, Any]) -> None:
         super().__init__()
-
         self.logger = logging.getLogger(__name__)
 
         # check threshold values
-        if not 0 <= config['yolo_score_threshold'] <= 1:
+        if not 0 <= config["yolo_score_threshold"] <= 1:
             raise ValueError("yolo_score_threshold must be in [0, 1]")
 
         # check for yolo weights, if none then download into weights folder
-        if not checker.has_weights(config['root'],
-                                   config['weights_dir']):
-            self.logger.info('---no yolo weights detected. proceeding to download...---')
-            downloader.download_weights(config['root'],
-                                        config['blob_file'])
-            self.logger.info('---yolo weights download complete.---')
+        weights_dir, model_dir = finder.find_paths(
+            config["root"], config["weights"], config["weights_parent_dir"]
+        )
+        if not checker.has_weights(weights_dir, model_dir):
+            self.logger.info("---no weights detected. proceeding to download...---")
+            downloader.download_weights(weights_dir, config["weights"]["blob_file"])
+            self.logger.info(f"---weights downloaded to {weights_dir}.---")
 
-        # get classnames path to read all the classes
-        classes_path = os.path.join(config['root'], config['classes'])
-        self.class_names = [c.strip() for c in open(classes_path).readlines()]
-        self.detect_ids = config['detect_ids']
+        classes_path = model_dir / config["weights"]["classes_file"]
+        with open(classes_path) as infile:
+            self.class_names = [c.strip() for c in infile.readlines()]
 
-        self.detector = Detector(config)
+        self.detector = Detector(config, model_dir, self.class_names)
+        self.detect_ids = config["detect_ids"]
 
-    def predict(self, frame: np.array) -> Tuple[List[np.array], List[str], List[float]]:
+    @property
+    def detect_ids(self) -> List[int]:
+        """The list of selected object category IDs."""
+        return self._detect_ids
+
+    @detect_ids.setter
+    def detect_ids(self, ids: List[int]) -> None:
+        if not isinstance(ids, list):
+            raise TypeError("detect_ids has to be a list")
+        if not ids:
+            self.logger.info("Detecting all Yolo classes")
+        self._detect_ids = ids
+
+    def predict(
+        self, image: np.ndarray
+    ) -> Tuple[List[np.ndarray], List[str], List[float]]:
         """predict the bbox from frame
 
-        returns:
-        object_bboxes(List[Numpy Array]): list of bboxes detected
-        object_labels(List[str]): list of string labels of the
-            object detected for the corresponding bbox
-        object_scores(List(float)): list of confidence scores of the
-            object detected for the corresponding bbox
-        """
-        assert isinstance(frame, np.ndarray)
-
-        # return bboxes, object_bboxes, object_labels, object_scores
-        return self.detector.predict_object_bbox_from_image(
-            self.class_names, frame, self.detect_ids
-        )
-
-    def get_detect_ids(self) -> List[int]:
-        """getter for selected ids for detection
+        Args:
+            image (np.ndarray): Input image frame.
 
         Returns:
-            List[int]: list of selected detection ids
+            object_bboxes (List[Numpy Array]): list of bboxes detected
+            object_labels (List[str]): list of string labels of the
+                object detected for the corresponding bbox
+            object_scores (List(float)): list of confidence scores of the
+                object detected for the corresponding bbox
         """
-        return self.detect_ids
+        if not isinstance(image, np.ndarray):
+            raise TypeError("image must be a np.ndarray")
+
+        # return object_bboxes, object_labels, object_scores
+        return self.detector.predict_object_bbox_from_image(image, self.detect_ids)

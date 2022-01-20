@@ -1,15 +1,18 @@
 <div align="center">
-    <img src="images/readme/peekingduck.png" width="30%">
+    <img src="https://raw.githubusercontent.com/aimakerspace/PeekingDuck/dev/images/readme/peekingduck.png" width="30%">
     <h1>PeekingDuck</h1>
 </div>
 
 [![Python version](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8-blue.svg)](https://pypi.org/project/peekingduck/)
 [![PyPI version](https://badge.fury.io/py/peekingduck.svg)](https://pypi.org/project/peekingduck/)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/peekingduck)](https://pypi.org/project/peekingduck/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/aimakerspace/PeekingDuck/blob/dev/LICENSE)
+[![Documentation Status](https://readthedocs.org/projects/peekingduck/badge/?version=stable)](https://peekingduck.readthedocs.io/en/stable/?badge=stable)
 
 ## What is PeekingDuck?
 
 PeekingDuck is an open-source, modular framework in Python, built for Computer Vision (CV) inference. It helps to significantly cut down development time when building CV pipelines. The name "PeekingDuck" is a play on these words: "Peeking" in a nod to CV; and "Duck" in [duck typing](https://en.wikipedia.org/wiki/Duck_typing).
+
 
 ## Install and Run PeekingDuck
 
@@ -17,7 +20,7 @@ PeekingDuck is an open-source, modular framework in Python, built for Computer V
     ```
     > pip install peekingduck
     ```
-    *Note: if installing on a device with an ARM processor such as a Raspberry Pi, include the `--no-dependencies` flag.*
+    *Note: if installing on a ARM-based device such as a Raspberry Pi or M1 Macbook, include the `--no-dependencies` flag, and separately install other dependencies listed in our [requirements.txt](https://github.com/aimakerspace/PeekingDuck/blob/dev/requirements.txt). See our guide for [M1 Mac](https://peekingduck.readthedocs.io/en/stable/getting_started/01_installation.html#m1-mac-installation) installation.*
 
 2. Create a project folder at a convenient location, and initialize a PeekingDuck project.
     ```
@@ -33,6 +36,7 @@ PeekingDuck is an open-source, modular framework in Python, built for Computer V
      ├── run_config.yml
      └── src
           └── custom_nodes
+              └── configs
     ```
 
 3. Run a demo.
@@ -42,7 +46,7 @@ PeekingDuck is an open-source, modular framework in Python, built for Computer V
 
     If you have a webcam, you should see the demo running live:
 
-    <img src="images/readme/yolo_demo.gif" width="50%">
+    <img src="https://raw.githubusercontent.com/aimakerspace/PeekingDuck/dev/images/readme/yolo_demo.gif" width="50%">
 
     The previous command looks for a `run_config.yml` in the current directory. You can also specify the path of a different config file to be used, as follows:
     ```
@@ -53,88 +57,56 @@ PeekingDuck is an open-source, modular framework in Python, built for Computer V
 
 4. For more help on how to use PeekingDuck's command line interface, you can use `peekingduck --help`.
 
+
 ## How PeekingDuck Works
 
 **Nodes** are the building blocks of PeekingDuck. Each node is a wrapper for a Python function, and contains information on how other PeekingDuck nodes may interact with it.
 
-PeekingDuck has 5 types of nodes:
+PeekingDuck has 6 types of nodes:
 
-<img src="diagrams/node_types.drawio.svg">
+<img src="https://raw.githubusercontent.com/aimakerspace/PeekingDuck/dev/diagrams/node_types.drawio.svg">
 
 A **pipeline** governs the behavior of a chain of nodes. The diagram below shows the pipeline used in the previous demo. Nodes in a pipeline are called in sequential order, and the output of one node will be the input to another. For example, `input.live` produces "img", which is taken in by `model.yolo`, and `model.yolo` produces "bboxes", which is taken in by `draw.bbox`. For ease of visualisation, not all the inputs and outputs of these nodes are included in this diagram.
 
-<img src="diagrams/yolo_demo.drawio.svg">
+<img src="https://raw.githubusercontent.com/aimakerspace/PeekingDuck/dev/diagrams/yolo_demo.drawio.svg">
 
-## Changing Nodes and Settings
+To list the available nodes in PeekingDuck and get their respective documentation's URL: 
+ ```
+ > peekingduck nodes
+ ```
 
-Earlier on, the `peekingduck init` command created the `run_config.yml` file, which is PeekingDuck's main configuration file and is responsible for:
-- Selecting which nodes to include in the pipeline
-- Configuring node behaviour
 
-**1. Selecting which nodes to include in the pipeline**:
+## Explore PeekingDuck's Features
 
-  - In the earlier object detection demo, `run_config.yml` used the following nodes:
-    ```
-    nodes:
-      - input.live
-      - model.yolo
-      - draw.bbox
-      - output.screen
-    ```
-  - Now, let's modify it to run a pose estimation demo using the following nodes:
-    ```
-    nodes:
-      - input.live
-      - model.posenet
-      - draw.poses
-      - output.screen
-    ```
+You can find the complete documentation for PeekingDuck at our [Read the Docs site](https://peekingduck.readthedocs.io/en/stable/). This includes information on:
+- [Changing PeekingDuck nodes](https://peekingduck.readthedocs.io/en/stable/getting_started/02_configure_pkdk.html) and their settings
+- [Official documentation](https://peekingduck.readthedocs.io/en/stable/peekingduck.pipeline.nodes.html) for all PeekingDuck nodes, describing their behaviour, inputs, outputs and settings
+- Creating your own [custom nodes](https://peekingduck.readthedocs.io/en/stable/getting_started/03_custom_nodes.html), and using them with PeekingDuck nodes
+- Using PeekingDuck as an [imported Python module](https://peekingduck.readthedocs.io/en/stable/getting_started/04_import_peekingduck.html) within your project
+- Benchmarks and class/keypoints IDs for [object detection](https://peekingduck.readthedocs.io/en/stable/resources/01a_object_detection.html) and [pose estimation](https://peekingduck.readthedocs.io/en/stable/resources/01b_pose_estimation.html) models.
 
-  - If you have a webcam, you should see the demo running live:
+You are also welcome to join discussions about using PeekingDuck in the following channels:
+- [Github discussion board](https://github.com/aimakerspace/PeekingDuck/discussions)
+- [AI Singapore's Community forum](https://community.aisingapore.org/groups/computer-vision/forum/)
 
-    <img src="images/readme/posenet_demo.gif" width="50%">
 
-    Terminate the program by clicking on the output screen and pressing `q`.
-
-**2. Configuring node behaviour**:
-- If you're not using a webcam, don't worry about missing out! PeekingDuck is also able to work on recorded videos or saved images, and we'll use the `input.recorded` and `output.media_writer` nodes for that. For this demo, you'll have to [download](https://peekingduck.blob.core.windows.net/videos/ducks.mp4.zip) and unzip a short video of ducks, and use `model.yolo` again to detect them.
-
-- We'll need to change the settings of 3 nodes, in order to set the input and output directories, and also to alter the object to be detected from a human to a bird, as follows:
-  ```
-  nodes:
-    - input.recorded:       # note the ":"
-        input_dir: <directory where videos/images are stored>
-    - model.yolo:           # note the ":"
-        detect_ids: [14]    # ID to detect the "bird" class is 14 for this model
-    - draw.bbox
-    - output.media_writer:  # note the ":"
-        output_dir: <directory to save results>
-  ```
-- Once PeekingDuck has finished running, the processed files will be saved to the specified output directory. Open the processed file and you should get this:
-
-  <img src="images/readme/ducks_demo.gif" width="50%">
-
-- To find out what other settings can be tweaked for different nodes, check out PeekingDuck's [API Reference](https://peekingduck.readthedocs.io/en/stable/peekingduck.pipeline.nodes.html).
-
-## Explore PeekingDuck Nodes
+## PeekingDuck Use Cases
 
 AI models are cool and fun, but we're even more interested to use them to solve real-world problems. We've combined dabble nodes with model nodes to create **use cases**, such as [social distancing](https://aisingapore.org/2020/06/hp-social-distancing/) and [group size checking](https://aisingapore.org/2021/05/covid-19-stay-vigilant-with-group-size-checker/) to help combat COVID-19. For more details, click on the heading of each use case below.
 
-| | |
-|-|-|
+|                                                              |                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Social Distancing](https://peekingduck.readthedocs.io/en/stable/use_cases/social_distancing.html) | [Zone Counting](https://peekingduck.readthedocs.io/en/stable/use_cases/zone_counting.html) |
-|<img src="images/readme/social_distancing.gif" width="100%"> |<img src="images/readme/zone_counting.gif" width="100%">|
+| <img src="https://raw.githubusercontent.com/aimakerspace/PeekingDuck/dev/images/readme/social_distancing.gif" width="100%"> | <img src="https://raw.githubusercontent.com/aimakerspace/PeekingDuck/dev/images/readme/zone_counting.gif" width="100%"> |
 | [Group Size Checking](https://peekingduck.readthedocs.io/en/stable/use_cases/group_size_checking.html) | [Object Counting](https://peekingduck.readthedocs.io/en/stable/use_cases/object_counting.html) |
-|<img src="images/readme/group_size_check_2.gif" width="100%">|<img src="images/readme/object_counting.gif" width="100%"> |
-| | |
+| <img src="https://raw.githubusercontent.com/aimakerspace/PeekingDuck/dev/images/readme/group_size_check_2.gif" width="100%"> | <img src="https://raw.githubusercontent.com/aimakerspace/PeekingDuck/dev/images/readme/object_counting.gif" width="100%"> |
+| [Privacy Protection (Faces)](https://peekingduck.readthedocs.io/en/stable/use_cases/privacy_protection_faces.html) | [Privacy Protection (License Plates)](https://peekingduck.readthedocs.io/en/stable/use_cases/privacy_protection_license_plate.html) |
+| <img src="https://raw.githubusercontent.com/aimakerspace/PeekingDuck/dev/images/readme/privacy_protection_faces.gif" width="100%"> | <img src="https://raw.githubusercontent.com/aimakerspace/PeekingDuck/dev/images/readme/privacy_protection_license_plates.gif" width="100%"> |
+| [Face Mask Detection](https://peekingduck.readthedocs.io/en/stable/use_cases/face_mask_detection.html) |                                                              |
+| <img src="https://raw.githubusercontent.com/aimakerspace/PeekingDuck/dev/images/readme/mask_detection.gif" width="100%"> |                                                              |
 
 We're constantly developing new nodes to increase PeekingDuck's capabilities. You've gotten a taste of some of our commonly used nodes in the previous demos, but PeekingDuck can do a lot more. To see what other nodes are available, check out PeekingDuck's [API Reference](https://peekingduck.readthedocs.io/en/stable/peekingduck.pipeline.nodes.html).
 
-## Create Custom Nodes
-
-You may need to create your own custom nodes. Perhaps you'd like to take a snapshot of a video frame, and post it to your API endpoint; perhaps you have a model trained on a custom dataset, and would like to use PeekingDuck's `input`, `draw`, and `output` nodes.
-
-We've designed PeekingDuck to be very flexible - you can create your own nodes and use them with ours. This [guide](https://peekingduck.readthedocs.io/en/stable/getting_started/03_custom_nodes.html) provides more details on how to do that.
 
 ## Acknowledgements
 
@@ -142,7 +114,7 @@ This project is supported by the National Research Foundation, Singapore under i
 
 ## License
 
-PeekingDuck is under the open source [Apache License 2.0](LICENSE) (:
+PeekingDuck is under the open source [Apache License 2.0](https://github.com/aimakerspace/PeekingDuck/blob/dev/LICENSE) (:
 
 Even so, your organisation may require legal proof of its right to use PeekingDuck, due to circumstances such as the following:
 - Your organisation is using PeekingDuck in a jurisdiction that does not recognise this license
@@ -152,4 +124,4 @@ Even so, your organisation may require legal proof of its right to use PeekingDu
 [Contact us](https://aisingapore.org/home/contact/) if any of these circumstances apply to you.
 
 ## Additional References
-Additional references can be found [here](https://peekingduck.readthedocs.io/en/stable/introduction/02_bibliography.html).
+Additional references can be found [here](https://peekingduck.readthedocs.io/en/stable/resources/02_bibliography.html).

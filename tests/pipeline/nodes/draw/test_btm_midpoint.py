@@ -15,42 +15,38 @@
 """
 Test for draw bottom midpoint node
 """
-import pytest
+
 import numpy as np
+import pytest
+
 from peekingduck.pipeline.nodes.draw.btm_midpoint import Node
 
+
 @pytest.fixture
-def draw_btm_mipoint():
-    node = Node({"input": ["btm_midpoint", "img"],
-                 "output": ["none"]
-                 })
+def draw_btm_midpoint():
+    node = Node({"input": ["btm_midpoint", "img"], "output": ["none"]})
     return node
 
 
 class TestBtmMidpoint:
-    def test_no_btm_midpoint(self, draw_btm_mipoint, create_image):
+    def test_no_btm_midpoint(self, draw_btm_midpoint, create_image):
         no_pts = []
         original_img = create_image((28, 28, 3))
         output_img = original_img.copy()
-        input1 = {
-        "btm_midpoint": no_pts,
-        "img": output_img
-        }
-        draw_btm_mipoint.run(input1)
+        input1 = {"btm_midpoint": no_pts, "img": output_img}
+        draw_btm_midpoint.run(input1)
         np.testing.assert_equal(original_img, output_img)
 
-    def test_btm_midpoint(self, draw_btm_mipoint, create_image):
-        btm_midpoitns = [(0,0), (25, 25)]
+    def test_btm_midpoint(self, draw_btm_midpoint, create_image):
+        btm_midpoints = [(0, 0), (25, 25)]
         original_img = create_image((28, 28, 3))
         output_img = original_img.copy()
-        input1 = {
-        "btm_midpoint": btm_midpoitns,
-        "img": output_img
-        }
-        draw_btm_mipoint.run(input1)
+        input1 = {"btm_midpoint": btm_midpoints, "img": output_img}
+        draw_btm_midpoint.run(input1)
 
         assert original_img.shape == output_img.shape
-        np.testing.assert_raises(AssertionError, np.testing.assert_equal,
-                                 original_img, output_img)
+        np.testing.assert_raises(
+            AssertionError, np.testing.assert_equal, original_img, output_img
+        )
         np.testing.assert_equal(output_img[0][0], np.array([156, 223, 244]))
         np.testing.assert_equal(output_img[25][25], np.array([156, 223, 244]))

@@ -4,12 +4,18 @@ build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
 markers = [
+    "module: marks test for python import peekingduck tests",
     "mlmodel: marks tests as (slow) ml models (deselect with '-m \"not mlmodel\"')",
 ]
 
 [tool.pylint]
     [tool.pylint.'MESSAGES CONTROL']
-    disable=['no-member','attribute-defined-outside-init','access-member-before-definition']
+    disable = [
+        "access-member-before-definition",
+        "attribute-defined-outside-init",
+        "logging-fstring-interpolation",
+        "no-member",
+    ]
 
 [tool.mypy]
 ignore_missing_imports = true

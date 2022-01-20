@@ -69,7 +69,7 @@ nodes:
 
 **1. Pose Estimation Model**
 
-By default, we are using the PoseNet model with a Resnet backbone for pose estimation. Depending on the device you're using, you might want to switch to the lighter mobilenet backbone, or to a heavier HRnet model for higher accuracy.
+By default, we are using the PoseNet model with a ResNet backbone for pose estimation. Please take a look at the [benchmarks](../resources/01b_pose_estimation.rst) of pose estimation models that are included in PeekingDuck if you would like to use a different model variation or an alternative model better suited to your use case.
 
 
 **2. Adjusting Nodes**
@@ -79,11 +79,11 @@ Some common node behaviours that you might need to adjust are:
 - `obj_dist_thres`: The maximum distance between 2 individuals, in metres, before they are considered to be part of a group.
 - `group_size_thres`: The acceptable group size limit.
 
-For more adjustable node behaviours not listed here, check out the [API reference](/peekingduck.pipeline.nodes.model).
+For more adjustable node behaviours not listed here, check out the [API reference](/peekingduck.pipeline.nodes).
 
 **3. Using Object Detection (Optional)**
 
-It is possible to use object detection nodes such as `model.yolo` instead of pose estimation. To do so, replace the model node accordingly, and replace the node `dabble.keypoints_to_3d_loc` with `dabble.bbox_to_3d_loc`. The reference or “ground truth length” in this case would be the average height of a human, multipled by a small factor.
+It is possible to use object detection nodes such as `model.yolo` instead of pose estimation. To do so, replace the model node accordingly, and replace the node `dabble.keypoints_to_3d_loc` with `dabble.bbox_to_3d_loc`. The reference or “ground truth length” in this case would be the average height of a human, multiplied by a small factor.
 
 You might need to use this approach if running on a resource-limited device such as a Raspberry Pi. In this situation, you'll need to use the lightweight models; we find lightweight object detectors are generally better than lightweight pose estimation models in detecting humans.
 
@@ -94,4 +94,3 @@ The trade-off here is that the estimated distance between individuals will be le
 To combat COVID-19, individuals are encouraged to maintain physical distance from each other. We've developed a social distancing tool that checks if individuals are too close to each other.
 
 The nodes for social distancing can be stacked with group size checker, to perform both at the same time. To find out which nodes are used, check out the [readme](./social_distancing.md) for social distancing.
-
