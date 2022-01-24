@@ -29,6 +29,7 @@ RUN apt update && \
     wget && \
     apt-get clean
 
+# COPY <repo directory incl weights and benchmarking videos> <to>
 COPY . ${APP_HOME}/PeekingDuck
 WORKDIR ${APP_HOME}/PeekingDuck
 
