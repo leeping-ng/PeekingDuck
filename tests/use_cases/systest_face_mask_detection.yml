@@ -1,0 +1,6 @@
+nodes:
+- input.visual:
+    source: "tests/data/images"
+- model.yolo_face
+- draw.bbox:
+    show_labels: True

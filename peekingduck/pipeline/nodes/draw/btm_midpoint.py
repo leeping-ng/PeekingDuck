@@ -1,4 +1,4 @@
-# Copyright 2021 AI Singapore
+# Copyright 2022 AI Singapore
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,48 +13,44 @@
 # limitations under the License.
 
 
-"""
-Draws the lowest middle point of a bounding box
-"""
+"""Draws the bottom middle point of a bounding box."""
 
-from typing import Dict, Any
-from peekingduck.pipeline.nodes.node import AbstractNode
+from typing import Any, Dict
+
 from peekingduck.pipeline.nodes.draw.utils.bbox import draw_pts
+from peekingduck.pipeline.nodes.node import AbstractNode
 
 
 class Node(AbstractNode):
-    """Draw the bottom middle point of detected bbounding boxes.
-
-    The draw btm_midpoint node uses the bboxes from the model predictions to
-    draw the bbox predictions onto the image. For better understanding of the usecase,
-    refer to the `zone counting usecase <use_cases/zone_counting.html>`_.
+    """The :mod:`draw.btm_midpoint` node uses :term:`bboxes` from the model
+    predictions to draw the bottom midpoint of each bbox as a dot onto the
+    image. For better understanding of the use case, refer to the
+    :doc:`Zone Counting use case </use_cases/zone_counting>`.
 
     Inputs:
+        |img_data|
 
-        |img|
-
-        |btm_midpoint|
+        |btm_midpoint_data|
 
     Outputs:
-        |none|
+        |none_output_data|
 
     Configs:
         None.
     """
 
-    def __init__(self, config: Dict[str, Any]) -> None:
-        super().__init__(config, node_path=__name__)
+    def __init__(self, config: Dict[str, Any] = None, **kwargs: Any) -> None:
+        super().__init__(config, node_path=__name__, **kwargs)
 
     def run(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
-        """Methods that draws btm midpoint of bounding bboxes
+        """Draws btm midpoint of bounding bboxes.
 
-         Args:
-             inputs (dict): Dict with keys "bboxes".
+        Args:
+            inputs (dict): Dictionary with keys "bboxes".
 
-         Returns:
-             outputs (dict): Empty dictionary.
-         """
-        draw_pts(inputs["img"],
-                 inputs["btm_midpoint"])
+        Returns:
+            outputs (dict): Empty dictionary.
+        """
+        draw_pts(inputs["img"], inputs["btm_midpoint"])
 
         return {}

@@ -1,0 +1,5 @@
+nodes:
+- input.visual:
+    source: "tests/data/images"
+- model.yolo_license_plate
+- draw.blur_bbox

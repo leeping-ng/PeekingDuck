@@ -1,0 +1,5 @@
+nodes:
+- input.visual:
+    source: "tests/data/images"
+- model.mtcnn
+- draw.mosaic_bbox

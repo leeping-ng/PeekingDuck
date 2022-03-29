@@ -1,4 +1,4 @@
-# Copyright 2021 AI Singapore
+# Copyright 2022 AI Singapore
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,19 +15,24 @@
 """
 Utils for CSV logging
 """
+
 import csv
 from datetime import datetime
+from pathlib import Path
 from typing import Any, Dict, List
 
-class CSVLogger:
-    """Node that writes data into a csv """
 
-    def __init__(self, filepath: str, headers: List[str], logging_interval: int=1) -> None:
+class CSVLogger:
+    """Node that writes data into a csv"""
+
+    def __init__(
+        self, file_path: Path, headers: List[str], logging_interval: int = 1
+    ) -> None:
         self.headers = headers.copy()
-        self.headers.insert(0,"Time")
-        self.filepath = filepath
+        self.headers.insert(0, "Time")
+        self.file_path = file_path
         self.logging_interval = logging_interval
-        self.csv_file = open(self.filepath, mode="a+",newline='')
+        self.csv_file = open(self.file_path, mode="a+", newline="")
         self.writer = csv.DictWriter(self.csv_file, fieldnames=self.headers)
         self.last_write = datetime.now()
 
@@ -42,15 +47,14 @@ class CSVLogger:
         Returns:
             None
         """
-
         # if file is empty write header
         if self.csv_file.tell() == 0:
             self.writer.writeheader()
 
-        content = {k:v for k,v in data_pool.items() if k in specific_data}
+        content = {k: v for k, v in data_pool.items() if k in specific_data}
         curr_time = datetime.now()
         time_str = curr_time.strftime("%H:%M:%S")
-        content.update({"Time":time_str})
+        content.update({"Time": time_str})
 
         if (curr_time - self.last_write).seconds >= self.logging_interval:
             self.writer.writerow(content)

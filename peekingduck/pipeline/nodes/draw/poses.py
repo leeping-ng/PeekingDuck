@@ -1,4 +1,4 @@
-# Copyright 2021 AI Singapore
+# Copyright 2022 AI Singapore
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,52 +13,52 @@
 # limitations under the License.
 
 """
-Draws keypoints on a detected pose
+Draws keypoints on a detected pose.
 """
 
 from typing import Any, Dict
-from peekingduck.pipeline.nodes.node import AbstractNode
+
 from peekingduck.pipeline.nodes.draw.utils.pose import draw_human_poses
+from peekingduck.pipeline.nodes.node import AbstractNode
 
 
 class Node(AbstractNode):
-    """Node for drawing poses onto image
+    """Draws poses onto image.
 
-    The draw poses node uses the keypoints, keypoint_scores, and keypoint_conns
-    predictions from pose models to draw the human poses onto the image.
-    For better understanding, check out the pose models.
+    The :mod:`draw.poses` node uses the :term:`keypoints`,
+    :term:`keypoint_scores`, and :term:`keypoint_conns` predictions from pose
+    models to draw the human poses onto the image. For better understanding,
+    check out the pose models such as :mod:`HRNet <model.hrnet>` and
+    :mod:`PoseNet <model.posenet>`.
 
     Inputs:
+        |img_data|
 
-        |img|
+        |keypoints_data|
 
-        |keypoints|
+        |keypoint_scores_data|
 
-        |keypoint_scores|
-
-        |keypoint_conns|
+        |keypoint_conns_data|
 
     Outputs:
-        |none|
+        |none_output_data|
 
     Configs:
         None.
     """
 
-    def __init__(self, config: Dict[str, Any]) -> None:
-        super().__init__(config, node_path=__name__)
-        self.keypoint_dot_color = tuple(config["keypoint_dot_color"])
-        self.keypoint_dot_radius = config["keypoint_dot_radius"]
-        self.keypoint_connect_color = tuple(config["keypoint_connect_color"])
-        self.keypoint_text_color = tuple(config["keypoint_text_color"])
+    def __init__(self, config: Dict[str, Any] = None, **kwargs: Any) -> None:
+        super().__init__(config, node_path=__name__, **kwargs)
+        self.keypoint_dot_color = tuple(self.config["keypoint_dot_color"])
+        self.keypoint_connect_color = tuple(self.config["keypoint_connect_color"])
+        self.keypoint_text_color = tuple(self.config["keypoint_text_color"])
 
     def run(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
-        """function that draws pose details onto input image
+        """Draws pose details onto input image.
 
         Args:
-            inputs (dict): Dict with keys "img", "keypoints", "keypoint_conns"
+            inputs (dict): Dictionary with keys "img", "keypoints", and
+                "keypoint_conns".
         """
-        draw_human_poses(inputs["img"],  # type: ignore
-                         inputs["keypoints"],
-                         inputs["keypoint_conns"])  # type: ignore
+        draw_human_poses(inputs["img"], inputs["keypoints"], inputs["keypoint_conns"])
         return {}

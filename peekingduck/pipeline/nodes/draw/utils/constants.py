@@ -1,4 +1,4 @@
-# Copyright 2021 AI Singapore
+# Copyright 2022 AI Singapore
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,12 +17,12 @@
 Constants used for drawing
 """
 
-# colours
+# colors
 CHAMPAGNE = (156, 223, 244)
 BLIZZARD = (241, 232, 164)
 VIOLET_BLUE = (188, 118, 119)
 TOMATO = (77, 103, 255)
-BROWN = (96,109, 167)
+BROWN = (96, 109, 167)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 PRIMARY_PALETTE_LENGTH = 5

@@ -1,17 +1,17 @@
 nodes:
-- input.recorded:
-    input_dir: "images/testing" 
+- input.visual:
+    source: "tests/data/images"
 - model.yolo:
-    detect_ids: [0]
-- heuristic.bbox_to_btm_midpoint
-- heuristic.zone_count:
+    detect_ids: ["person"]
+- dabble.bbox_to_btm_midpoint
+- dabble.zone_count:
     resolution: [1280, 720]
     zones: [
     [[0, 0], [0.6, 0], [0.6, 1], [0, 1]],
     [[0.6, 0], [1, 0], [1, 1], [0.6, 1]]
     ]
-- heuristic.fps
 - draw.bbox
 - draw.btm_midpoint
 - draw.zones
-- draw.legend
+- draw.legend:
+    show: ["zone_count"]

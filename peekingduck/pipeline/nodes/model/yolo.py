@@ -1,4 +1,4 @@
-# Copyright 2021 AI Singapore
+# Copyright 2022 AI Singapore
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,103 +12,90 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Fast Object Detection model
-"""
+"""🔲 One-stage Object Detection model."""
 
-from typing import Dict, Any
+from typing import Any, Dict
+
+import numpy as np
+
+from peekingduck.pipeline.nodes.model.yolov4 import yolo_model
 from peekingduck.pipeline.nodes.node import AbstractNode
-from .yolov4 import yolo_model
 
 
 class Node(AbstractNode):
-    """Yolo node class that initialises and use yolo model to infer bboxes
-    from image frame.
+    """Initializes and uses YOLO model to infer bboxes from image frame.
 
     The yolo node is capable of detecting objects from 80 categories. It uses
     YOLOv4-tiny by default and can be changed to using YOLOv4. The table of
-    categories can be found :term:`here <object detection indices>`.
+    categories can be found :ref:`here <general-object-detection-ids>`.
 
     Inputs:
-        |img|
+        |img_data|
 
     Outputs:
-        |bboxes|
+        |bboxes_data|
 
-        |bbox_labels|
+        |bbox_labels_data|
 
-        |bbox_scores|
+        |bbox_scores_data|
 
     Configs:
-        model_type (:obj:`str`): **{"v3", "v3tiny", "v4", "v4tiny"}, default="v4tiny"**
-
-            defines the type of YOLO model to be used.
-
-        weights_dir (:obj:`List`):
-            directory pointing to the model weights.
-
-        blob_file (:obj:`str`):
-            name of file to be downloaded, if weights are not found in `weights_dir`.
-
-        graph_files (:obj:`Dict`):
-            dictionary pointing to path of the model weights file.
-
-        size (:obj:`int`): **default = 416 **
-
-            image resolution passed to the YOLO model.
-
-        num_classes (:obj:`int`): **default = 80 **
-
-            maximum number of objects to be detected.
-
-        detect_ids (:obj:`List`): **default = [0] **
-
-            list of object class ids to be detected.
-
-        max_output_size_per_class (:obj:`int`): **default = 50 **
-
-            maximum number of detected instances for each class in an image.
-
-        max_total_size (:obj:`int`): **default = 50 **
-
-            maximum total number of detected instances in an image.
-
-        yolo_iou_threshold (:obj:`float`): **[0,1], default = 0.5**
-
-            overlapping bounding boxes above the specified IoU (Intersection
+        model_type (:obj:`str`): **{"v4", "v4tiny"}, default="v4tiny"**. |br|
+            Defines the type of YOLO model to be used.
+        weights_parent_dir (:obj:`Optional[str]`): **default = null**. |br|
+            Change the parent directory where weights will be stored by
+            replacing ``null`` with an absolute path to the desired directory.
+        num_classes (:obj:`int`): **default = 80**. |br|
+            Maximum number of objects to be detected.
+        detect_ids (:obj:`List`): **default = [0]**. |br|
+            List of object class IDs to be detected. To detect all classes,
+            refer to the :ref:`tech note <general-object-detection-ids>`.
+        max_output_size_per_class (:obj:`int`): **default = 50**. |br|
+            Maximum number of detected instances for each class in an image.
+        max_total_size (:obj:`int`): **default = 50**. |br|
+            Maximum total number of detected instances in an image.
+        iou_threshold (:obj:`float`): **[0, 1], default = 0.5**. |br|
+            Overlapping bounding boxes above the specified IoU (Intersection
             over Union) threshold are discarded.
-
-        yolo_score_threshold (:obj:`float`): **[0,1], default = 0.2**
-
-            bounding box with confidence score less than the specified
+        score_threshold (:obj:`float`): **[0, 1], default = 0.2**. |br|
+            Bounding box with confidence score less than the specified
             confidence score threshold is discarded.
 
     References:
-
-    YOLOv4: Optimal Speed and Accuracy of Object Detection:
+        YOLOv4: Optimal Speed and Accuracy of Object Detection:
         https://arxiv.org/pdf/2004.10934v1.pdf
 
-    Model weights trained by https://github.com/hunglc007/tensorflow-yolov4-tflite
-    Inference code adapted from https://github.com/zzh8829/yolov3-tf2
+        Model weights trained by
+        https://github.com/hunglc007/tensorflow-yolov4-tflite
+
+        Inference code adapted from https://github.com/zzh8829/yolov3-tf2
+
+    .. versionchanged:: 1.2.0
+        ``yolo_iou_threshold`` is renamed to ``iou_threshold``.
+
+    .. versionchanged:: 1.2.0
+        ``yolo_score_threshold`` is renamed to ``score_threshold``.
     """
 
-    def __init__(self, config: Dict[str, Any]) -> None:
-        super().__init__(config, node_path=__name__)
-        self.model = yolo_model.YoloModel(config)
+    def __init__(self, config: Dict[str, Any] = None, **kwargs: Any) -> None:
+        super().__init__(config, node_path=__name__, **kwargs)
+        self.model = yolo_model.YoloModel(self.config)
 
     def run(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
-        """function that reads the image input and returns the bboxes
-        of the specified objects chosen to be detected
+        """Reads the image input and returns the bboxes of the specified
+        objects chosen to be detected.
 
         Args:
-            inputs (Dict): Dictionary of inputs with key "img"
+            inputs (dict): Dictionary of inputs with key "img".
 
         Returns:
-            outputs (Dict): bbox output in dictionary format with keys
-            "bboxes", "bbox_labels" and "bbox_scores"
+            outputs (dict): bbox output in dictionary format with keys
+            "bboxes", "bbox_labels", and "bbox_scores".
         """
         # Currently prototyped to return just the bounding boxes
         # without the scores
         bboxes, labels, scores = self.model.predict(inputs["img"])
+        bboxes = np.clip(bboxes, 0, 1)
+
         outputs = {"bboxes": bboxes, "bbox_labels": labels, "bbox_scores": scores}
         return outputs

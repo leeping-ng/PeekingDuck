@@ -1,4 +1,4 @@
-# Copyright 2021 AI Singapore
+# Copyright 2022 AI Singapore
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,6 +13,9 @@
 # limitations under the License.
 
 """
-Draws results/outputs to an image. For heuristic information such as fps,
-object count and zone count, use `draw.legend` to display them.
+Draws results/outputs to an image.
+
+.. deprecated:: 1.2.0
+    :mod:`draw.image_processor` is deprecated, and replaced by the nodes
+    :mod:`augment.brightness` and :mod:`augment.contrast`.
 """
