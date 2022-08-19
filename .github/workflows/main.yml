@@ -1,0 +1,14 @@
+name: Show release version
+env:
+  VERSION: ${{github.event.release.tag_name}}
+on:
+  workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - id: get_version
+      uses: battila7/get-version-action@v2
+
+    - run: echo ${{ steps.get_version.outputs.version }}
